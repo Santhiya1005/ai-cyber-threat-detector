@@ -1,3 +1,5 @@
 /node_modules
 .env
-frontend/public/cyber-bg.mp4
+backend/venv/
+frontend/node_modules/
+.env

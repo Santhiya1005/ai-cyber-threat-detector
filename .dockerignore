@@ -1,0 +1,22 @@
+# Ignore backend virtual environment
+backend/venv
+backend/__pycache__
+backend/node_modules
+
+# Ignore frontend node_modules
+frontend/node_modules
+frontend/build
+
+# Ignore AI cache
+ai/__pycache__
+ai/*.pyc
+ai/venv
+
+# Ignore logs
+*.log
+
+# Ignore OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.env
