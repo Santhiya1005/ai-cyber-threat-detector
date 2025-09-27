@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.css"; // cyber styles
+import "./App.css"; 
 
 function App() {
   const [input, setInput] = useState("");
@@ -145,7 +145,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
           </div>
         ) : (
           <div>
-            {/* 🔍 Input + Scan Button */}
+            {}
             <div className="input-button-container">
               <input
                 type="text"
@@ -163,7 +163,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
               </button>
             </div>
 
-            {/* 🚪 Logout + Clear History Buttons */}
+            {}
             <div className="btn-row">
               <button className="btn-cyber" onClick={handleLogout}>
                 Logout
@@ -175,7 +175,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
 
             {error && <p className="text-danger">{error}</p>}
 
-            {/* 📝 Selected Scan */}
+            {}
             {selectedScan && (
               <div className="cyber-card">
                 <h5>Scan Result (Selected Row):</h5>

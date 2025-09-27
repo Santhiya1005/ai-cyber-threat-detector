@@ -1,6 +1,4 @@
-/* =========================
-   Video Background
-========================= */
+
 .video-background {
   position: relative;
   width: 100%;
@@ -19,9 +17,7 @@
   filter: brightness(0.25);
 }
 
-/* =========================
-   Overlay Content
-========================= */
+
 .overlay-content {
   position: relative;
   z-index: 1;
@@ -37,7 +33,7 @@
   text-align: left;
 }
 
-/* Titles */
+
 .cyber-title {
   font-size: 3rem;
   color: #00d1b2;
@@ -58,12 +54,10 @@
   .cyber-subtitle { font-size: 1.2rem; }
 }
 
-/* =========================
-   Main Container
-========================= */
+
 .container {
   width: 100%;
-  max-width: 1200px; /* MUCH WIDER */
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,9 +65,7 @@
   margin: 0 auto;
 }
 
-/* =========================
-   Input + Scan Button
-========================= */
+
 .input-button-container {
   display: flex;
   justify-content: space-between;
@@ -117,20 +109,18 @@
   transform: translateY(-2px);
 }
 
-/* =========================
-   Buttons Row (Logout + Clear)
-========================= */
+
 .btn-row {
   display: flex;
   justify-content: center;
-  gap: 40px; /* more gap */
+  gap: 40px; 
   width: 100%;
   margin: 20px 0;
 }
 
 .logout-btn,
 .clear-btn {
-  flex: 0 0 250px; /* bigger buttons */
+  flex: 0 0 250px;
   padding: 18px 0;
   border-radius: 8px;
   border: none;
@@ -157,9 +147,7 @@
   background-color: rgba(20, 20, 20, 0.089);
 }
 
-/* =========================
-   Table & Scan Cards
-========================= */
+
 .table-cyber,
 .cyber-card {
   width: 100%;
@@ -168,11 +156,11 @@
 }
 
 .table-cyber {
-  border-collapse: separate; /* important for border-radius to work */
-  border-spacing: 0;         /* remove gaps between cells */
+  border-collapse: separate; 
+  border-spacing: 0;        
   border: 1px solid #00d1b2;
-  border-radius: 20px;       /* adjust this value for corner size */
-  overflow: hidden;          /* clips the corners */
+  border-radius: 20px;      
+  overflow: hidden;        
 }
 
 .table-cyber th,
@@ -193,14 +181,11 @@
   transition: 0.3s;
 }
 
-/* Remove nested table issue */
 .table-cyber tr.selected {
   display: none;
 }
 
-/* =========================
-   Scan Result Card
-========================= */
+
 .cyber-card {
   border: 1px solid #00d1b2;
   background-color: rgba(20, 20, 20, 0.85);
@@ -223,11 +208,6 @@
   cursor: pointer;
 }
 
-
-
-/* =========================
-   Links
-========================= */
 a {
   color: #00d1b2;
   text-decoration: none;
@@ -237,9 +217,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* =========================
-   Scrollbar customization
-========================= */
 .cyber-card::-webkit-scrollbar {
   height: 6px;
 }

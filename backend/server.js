@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-// -------------------- Env check --------------------
+
 const requiredEnvs = [
   "VT_API_KEY",
   "ABUSEIPDB_KEY",
@@ -28,7 +28,7 @@ for (const k of requiredEnvs) {
   }
 }
 
-// -------------------- MongoDB --------------------
+
 mongoose
   .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
@@ -37,7 +37,6 @@ mongoose
     process.exit(1);
   });
 
-// -------------------- JWT Auth --------------------
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -49,7 +48,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// -------------------- Dummy user --------------------
 const dummyUser = {
   id: 1,
   username: "admin",
@@ -73,7 +71,6 @@ app.post("/api/login", async (req, res) => {
   res.json({ token });
 });
 
-// -------------------- Scan Schema --------------------
 const scanSchema = new mongoose.Schema({
   input: { type: String, required: true },
   status: String,
@@ -86,7 +83,6 @@ const scanSchema = new mongoose.Schema({
 });
 const Scan = mongoose.model("Scan", scanSchema);
 
-// -------------------- Local dataset --------------------
 let maliciousData = [];
 try {
   maliciousData = require(path.join(__dirname, "../malicious.json"));
@@ -94,7 +90,6 @@ try {
   console.warn("⚠️ malicious.json not found, local DB disabled");
 }
 
-// -------------------- Helpers --------------------
 function isIP(input) {
   return net.isIP(input) !== 0;
 }
@@ -128,7 +123,6 @@ function localThreatCheck(input) {
   };
 }
 
-// -------------------- Third-party APIs --------------------
 const VT_API = axios.create({
   baseURL: "https://www.virustotal.com/api/v3",
   timeout: 15000,
@@ -198,7 +192,6 @@ async function checkVirusTotalHash(hash) {
   }
 }
 
-// -------------------- AI --------------------
 async function queryAI(input) {
   try {
     const res = await axios.post(`${process.env.AI_URL.replace(/\/+$/, "")}/predict`, { input }, { timeout: 10000 });
@@ -215,7 +208,6 @@ async function trainAI(input, label) {
   } catch {}
 }
 
-// -------------------- Scan --------------------
 app.post("/api/scan", authenticateToken, async (req, res) => {
   const { input } = req.body || {};
   if (!input || typeof input !== "string") return res.status(400).json({ message: "No input" });
@@ -291,7 +283,6 @@ app.post("/api/scan", authenticateToken, async (req, res) => {
   }
 });
 
-// -------------------- History --------------------
 app.get("/api/history", authenticateToken, async (req, res) => {
   try {
     const history = await Scan.find({}).sort({ date: -1 }).limit(50);
@@ -322,6 +313,5 @@ app.get('/', (req, res) => {
   res.send('Backend is working!');
 });
 
-// -------------------- Start --------------------
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
