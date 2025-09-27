@@ -24,7 +24,7 @@ RUN npm install -g concurrently serve
 
 EXPOSE 4000 3000 8000
 
-CMD concurrently \
-  "cd backend && npm start" \
-  "cd frontend && serve -s build -l 3000" \
-  "cd ai && uvicorn app:app --host 0.0.0.0 --port 8000"
+CMD ["concurrently", \
+    "\"cd backend && npm start\"", \
+    "\"cd frontend && serve -s build -l 3000\"", \
+    "\"cd ai && uvicorn app:app --host 0.0.0.0 --port 8000\""]
