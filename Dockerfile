@@ -1,30 +1,37 @@
-FROM node:18
+FROM node:18-slim AS frontend-build
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
 
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+FROM node:18-slim AS backend
+WORKDIR /app/backend
+COPY backend/package*.json ./
+RUN npm install
+COPY backend/ ./
 
-WORKDIR /app
-
-COPY backend/package*.json ./backend/
-RUN cd backend && npm install
-
-COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install
-
-COPY ai/requirements.txt ./ai/
-RUN python3 -m venv /opt/venv \
+FROM python:3.11-slim AS ai
+WORKDIR /app/ai
+COPY ai/requirements.txt ./
+RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
-    && /opt/venv/bin/pip install -r ai/requirements.txt
+    && /opt/venv/bin/pip install -r requirements.txt
 ENV PATH="/opt/venv/bin:$PATH"
+COPY ai/ ./
 
-COPY . .
-
-RUN cd frontend && npm run build
+FROM node:18-slim
+WORKDIR /app
+COPY --from=backend /app/backend /app/backend
+COPY --from=frontend-build /app/frontend/build /app/frontend/build
+COPY --from=ai /app/ai /app/ai
+ENV PATH="/opt/venv/bin:$PATH"
 
 RUN npm install -g concurrently serve
 
 EXPOSE 4000 3000 8000
 
-CMD ["concurrently", \
-    "\"cd backend && npm start\"", \
-    "\"cd frontend && serve -s build -l 3000\"", \
-    "\"cd ai && uvicorn app:app --host 0.0.0.0 --port 8000\""]
+CMD concurrently \
+  "cd backend && npm start" \
+  "serve -s frontend/build -l 3000" \
+  "cd ai && uvicorn app:app --host 0.0.0.0 --port 8000"
