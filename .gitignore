@@ -26,6 +26,6 @@ frontend/public/cyber-bg.mp4
 
 backend/venv/
 frontend/node_modules/
-backend/node_modules
+backend/node_modules/
 .env
 frontend/cyber-bg.mp4
