@@ -28,4 +28,4 @@ backend/venv/
 frontend/node_modules/
 backend/node_modules/
 .env
-frontend/cyber-bg.mp4
+frontend/public/cyber-bg.mp4
