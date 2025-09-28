@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css"; 
 
+// 🔹 Dynamic API base URL
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:4000";
+
 function App() {
   const [input, setInput] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
@@ -17,8 +20,7 @@ function App() {
 
   const mapStatus = (aiPrediction, originalStatus) => {
     if (originalStatus && originalStatus !== "Unknown") return originalStatus;
-if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
-
+    if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
 
     const lower = aiPrediction.toLowerCase();
     if (lower.includes("malware")) return "🚨 High Threat!";
@@ -34,7 +36,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
     setLoginLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:4000/api/login", {
+      const res = await axios.post(`${API_BASE}/api/login`, {
         username: "admin",
         password: "password123",
       });
@@ -52,7 +54,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
   const fetchHistory = async () => {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:4000/api/history", {
+      const res = await axios.get(`${API_BASE}/api/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const mappedHistory = res.data.map((item) => ({
@@ -73,7 +75,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
     setError("");
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/scan",
+        `${API_BASE}/api/scan`,
         { input: trimmed },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -91,7 +93,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/api/history/${id}`, {
+      await axios.delete(`${API_BASE}/api/history/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHistory((prev) => prev.filter((i) => i._id !== id));
@@ -103,7 +105,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
 
   const handleClearHistory = async () => {
     try {
-      await axios.delete("http://localhost:4000/api/history", {
+      await axios.delete(`${API_BASE}/api/history`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHistory([]);
@@ -145,7 +147,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
           </div>
         ) : (
           <div>
-            {}
+            {/* Input + Scan */}
             <div className="input-button-container">
               <input
                 type="text"
@@ -163,7 +165,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
               </button>
             </div>
 
-            {}
+            {/* Buttons */}
             <div className="btn-row">
               <button className="btn-cyber" onClick={handleLogout}>
                 Logout
@@ -175,7 +177,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
 
             {error && <p className="text-danger">{error}</p>}
 
-            {}
+            {/* Selected Scan */}
             {selectedScan && (
               <div className="cyber-card">
                 <h5>Scan Result (Selected Row):</h5>
@@ -183,6 +185,7 @@ if (!aiPrediction || aiPrediction.toLowerCase() === "unknown") return "Unknown";
               </div>
             )}
 
+            {/* History */}
             <h3 className="cyber-subtitle">Recent Scans</h3>
             <table className="table-cyber">
               <thead>
