@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\santhiya s\OneDrive\Desktop\MyProjects\cyber-threat-detector\ai\venv
+set VIRTUAL_ENV=D:\Myprojects\Cyber-threat-detector\ai\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
